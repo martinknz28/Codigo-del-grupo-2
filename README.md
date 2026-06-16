@@ -1,8 +1,5 @@
 # Codigo-del-grupo-2
+<<<<<<< Updated upstream
 Proyecto Evaluativo de Programacion
-asdasd
-asdasd
-asdasd
-asdasd
-asdasd
-asdasd
+pen epene pene pene
+>>>>>>> Stashed changes
