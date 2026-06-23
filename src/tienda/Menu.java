@@ -27,13 +27,13 @@ public class Menu {
                     break;
                 case "2": registrarCliente();
                     break;
-                case "3": venderProducto();
+                case "3": mostrarDisponibles();
                     break;
-                case "4": reponerStock();
+                case "4": venderProducto();
                     break;
-                case "5": mostrarDisponibles();
+                case "5": mostrarAlertaStockBajo();
                     break;
-                case "6":mostrarAlertaStockBajo();
+                case "6":reponerStock();
                     break;
                 case "7": mostrarCatalogoPorPrecio();
                     break;
@@ -55,13 +55,13 @@ public class Menu {
         System.out.println("");
         System.out.println("2. Registrar cliente");
          System.out.println("");
-        System.out.println("3. Vender producto");
+        System.out.println("3. Mostramos productos disponibles");
          System.out.println("");
-        System.out.println("4. Reponer stock");
+        System.out.println("4. Vender Producto");
          System.out.println("");
-        System.out.println("5. Mostrar productos disponibles");
+        System.out.println("5. Alerta de stock bajo");
          System.out.println("");
-        System.out.println("6. Alerta de stock bajo");
+        System.out.println("6. Reponemos stock");
          System.out.println("");
         System.out.println("7. Catalogo ordenado por precio");
          System.out.println("");
@@ -97,7 +97,7 @@ public class Menu {
             int garantia = Integer.parseInt(scanner.nextLine());
             tienda.agregarProducto(
                 new Electronica(id, nombre, precio, stock, stockMin, marca, garantia));
-            System.out.println("Electronica agregada.");
+            System.out.println("Dispositivo electronico agregada.");
         } else if (tipo.equals("2")) {
             System.out.print("Talle: ");
             String talle = scanner.nextLine();
@@ -135,7 +135,19 @@ public class Menu {
         System.out.println("Cliente registrado con exito");
     }
 //OPCION 3 
-     private void venderProducto() {
+  private void mostrarDisponibles() {
+        System.out.println("--- Productos disponibles ---");
+        List<Producto> disponibles = tienda.mostrarDisponibles();
+        if (disponibles.isEmpty()) {
+            System.out.println("No hay productos disponibles.");
+        } else {
+            disponibles.forEach(Producto::mostrarInfo);
+        }
+    }
+  
+
+ //OPCION 4 
+   private void venderProducto() {
         System.out.println("--- Vender producto ---");
         System.out.print("DNI del cliente: ");
         int dni = Integer.parseInt(scanner.nextLine());
@@ -171,9 +183,22 @@ public class Menu {
             System.out.println("(Operacion de venta finalizada)");
         }
     }
+     //OPCION 5 
+     private void mostrarAlertaStockBajo() {
+        System.out.println("--- Alerta de stock bajo ---");
+        List<Producto> stockBajo = tienda.alertaStockBajo();
+        if (stockBajo.isEmpty()) {
+            System.out.println("Ningun producto con stock bajo.");
+        } else {
+            for (Producto p : stockBajo) {
+                System.out.println("Reponer: " + p.getNombre() +
+                        " (stock " + p.getStock() + " < minimo " + p.getStockMinimo() + ")");
+            }
+        }
+    }
 
- //OPCION 4    
-   private void reponerStock() {
+   //OPCION 6 
+     private void reponerStock() {
         System.out.println("--- Reponer stock ---");
         System.out.print("Nombre del producto: ");
         String nombreProd = scanner.nextLine();
@@ -190,29 +215,6 @@ public class Menu {
         System.out.println("Stock repuesto. Nuevo stock: " + producto.getStock());
     }
 
- //OPCION 5 
-  private void mostrarDisponibles() {
-        System.out.println("--- Productos disponibles ---");
-        List<Producto> disponibles = tienda.mostrarDisponibles();
-        if (disponibles.isEmpty()) {
-            System.out.println("No hay productos disponibles.");
-        } else {
-            disponibles.forEach(Producto::mostrarInfo);
-        }
-    }
-//OPCION 6 
-   private void mostrarAlertaStockBajo() {
-        System.out.println("--- Alerta de stock bajo ---");
-        List<Producto> stockBajo = tienda.alertaStockBajo();
-        if (stockBajo.isEmpty()) {
-            System.out.println("Ningun producto con stock bajo.");
-        } else {
-            for (Producto p : stockBajo) {
-                System.out.println("Reponer: " + p.getNombre() +
-                        " (stock " + p.getStock() + " < minimo " + p.getStockMinimo() + ")");
-            }
-        }
-    }
 
 //OPCION 7     
    private void mostrarCatalogoPorPrecio() {

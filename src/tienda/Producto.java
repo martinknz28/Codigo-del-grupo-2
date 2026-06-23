@@ -13,6 +13,7 @@ public abstract class Producto implements Serializable, IComercializable {
   protected EstadoProducto estado; 
    
     //Constructor 
+  @SuppressWarnings("OverridableMethodCallInConstructor")
  public Producto (int id, String nombre,double precio, int stock, int stockMinimo ) { 
      this.id= id;
      this.nombre = nombre; 
