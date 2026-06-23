@@ -10,20 +10,29 @@ public class Cliente extends Persona {
         this.saldo= saldo;
         this.historialCompras = new ArrayList<>();
     }
-    //Metodo comprar ()
+
      public void comprar(Producto p, int cantidad) throws StockInsuficienteException {
-        if (cantidad > p.getStock()) {
-            throw new StockInsuficienteException("Stock insuficiente de " + p.getNombre() + ". Pedido: " + cantidad + " | Disponible: " + p.getStock());
-        }
-        p.vender(cantidad); 
-
-        double gasto = p.getPrecio() * cantidad;
-        this.saldo = this.saldo - gasto;
-        this.historialCompras.add(p);
-
-        System.out.println(getNombre() + " compro " + cantidad + " de " + p.getNombre());
+        
+    if (cantidad > p.getStock()) {
+        throw new StockInsuficienteException(
+            "Stock insuficiente de " + p.getNombre() +
+            ". Pedido: " + cantidad + " | Disponible: " + p.getStock());
     }
 
+    double gasto = p.getPrecio() * cantidad;
+    if (gasto > this.saldo) {
+        System.out.println("Saldo insuficiente. Necesitas $" + gasto + " y tu saldo es $" + this.saldo + ". Compra cancelada.");
+        return; 
+    }
+    // ------------------------------------
+
+    p.vender(cantidad);
+
+    this.saldo = this.saldo - gasto;
+    this.historialCompras.add(p);
+
+    System.out.println(getNombre() + " compro " + cantidad + " de " + p.getNombre());
+}
     public void mostrarHistorial() {
         System.out.println("Historial de compras de " + getNombre() + ":");
         if (historialCompras.isEmpty()) {
